@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   <style>
+body{text-align: center;}
+.buttons{padding: 10px;border-radius:10px; background-color:#ddd;text-decoration: none;}
+.buttons:hover{background-color: blue;color:white;}
+nav {
+    padding:10px;
+    background-color: #ccc;
+    width: 50%;
+    margin: auto;
+}
+nav a{
+    padding: 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: monospace;
+}
+nav a:hover{color:white;}
+li{list-style: none;}
+</style>
+  </head>
+  <body style="font-size:20px; padding:50px;">
+    <% include partials/_header %>
+    <% include partials/nav %>
+    <form action="/urls" method="POST" style="margin:150px;">
+      <label for="longURL">Enter a URL:</label>
+      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
