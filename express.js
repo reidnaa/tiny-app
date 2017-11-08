@@ -1,4 +1,6 @@
 var express = require("express");
+var methodOverride = require('method-override')
+
 var app = express();
 var PORT = process.env.PORT || 8080; // default port 8080
 
@@ -7,6 +9,24 @@ app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+var urlDatabase = {
+  "b2xVn2": "http://www.lighthouselabs.ca",
+  "9sm5xK": "http://www.google.com"
+};
+
+
+app.post("/urls/:id/delete", (req , res ) => {
+
+
+
+
+ delete urlDatabase[req.params.id];
+
+
+
+ res.redirect("/urls");
+
+})
 
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
@@ -17,10 +37,7 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${rString}`);
 });
 
-var urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
+
 
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
@@ -28,10 +45,16 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { urls: urlDatabase, shortURL: req.params.id };
+
+  let templateVars = { urls:     urlDatabase,
+                       shortURL: req.params.id
+                     };
+
   res.render("urls_show", templateVars);
 });
 
+
+//home page
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -40,9 +63,12 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
+
+// at Hello page === /hello
 app.get("/hello", (req, res) => {
   res.end("<html><body>Hello <b>World</b></body></html>\n");
 });
+
 
 
 
