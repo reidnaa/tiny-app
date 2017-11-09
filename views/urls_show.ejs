@@ -2,6 +2,7 @@
 <head>
   <title>TinyApp</title>
 <style>
+.page-title{font-family: monospace;}
 body{text-align: center;}
 .buttons{padding: 10px;border-radius:10px; background-color:#ddd;text-decoration: none;}
 .buttons:hover{background-color: blue;color:white;}
@@ -32,6 +33,11 @@ li{list-style: none;}
   <%= 'long form of url :' + urls[shortURL] %><br/>
   <%= 'short URL is : ' + shortURL %>
 
+  <form action="/urls/<%= shortURL %>" method="POST" style="margin:150px;">
+      <label>short URL: <%= shortURL %> </label><br/>
+      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      <input type="submit" value="Submit">
+    </form>
 </section>
 </body>
 </html>

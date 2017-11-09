@@ -2,6 +2,7 @@
 <html lang="en">
 
 <style>
+.page-title{font-family: monospace;}
 body{text-align: center;}
 .buttons{padding: 10px;border-radius:10px; background-color:#ddd;text-decoration: none;}
 .buttons:hover{background-color: blue;color:white;}
@@ -34,7 +35,11 @@ li{list-style: none;}
 
    <ul>
     <% for(var url in urls) { %>
-      <li><%= url + ' :  ' + urls[url] %></li>
+      <li><%= url + ' :  ' + urls[url] %>
+          <form method="POST" action="/urls/<%= url %>/delete">
+               <button type="submit">Delete URL</button>
+          </form>
+      </li>
     <% } %>
 
     </ul>
