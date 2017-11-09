@@ -54,6 +54,8 @@ app.get("/urls/new", (req, res) => {
 
 //
 app.post("/urls", (req, res) => {
+  let rString = generateRandomString('0123456789abcdefghijklmnopqrstuvwxyz');
+
   urlDatabase[rString] = "https://" +  req.body['longURL'];
   res.redirect(`/urls/${rString}`);
 });
@@ -114,7 +116,7 @@ app.get("/hello", (req, res) => {
 //
 //, username: req.cookies["username"]
 
-var rString = generateRandomString('0123456789abcdefghijklmnopqrstuvwxyz');
+
 function generateRandomString(chars) {
     let result = '';
     for (let  i = 6; i > 0; --i) {
