@@ -38,7 +38,7 @@ li{list-style: none;}
 
    <ul>
     <% for(var url in urls) { %>
-      <li><%= url + ' :  ' + urls[url] %>
+      <li><%= url + ' :  ' + urls[url].longUrl %>
           <form method="POST" action="/urls/<%= url %>/delete">
                <button type="submit">Delete URL</button>
           </form>

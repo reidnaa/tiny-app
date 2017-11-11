@@ -26,8 +26,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //database of urls
 var urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2":{ longUrl:  "http://www.lighthouselabs.ca",
+              userID: "userRandomID"
+            },
+  "9sm5xK": { longUrl :"http://www.google.com",
+              userID: "user2RandomID"
+            }
+
 };
 
 // users database
@@ -80,7 +85,8 @@ app.post("/login", (req, res) => {
     var validEmail = false;
     var validPassword = false;
     var isComplete = checkForm(req.body.email , req.body.password);
-
+    let user_id =  req.cookies["user_id"];
+    let user_email = req.cookies["user_email"];
     var templateVars = {user_id: user_id,
                         user_email : user_email
                         };
@@ -122,8 +128,12 @@ app.post("/logout", (req, res) => {
 
 // DELETE THE URLS
 app.post("/urls/:id/delete", (req , res ) => {
+  for ( id in urlDatabase){
+    if (user_id === id.userID){
+      delete urlDatabase[req.params.id];
+    }
+  }
 
- delete urlDatabase[req.params.id];
  res.redirect("/urls");
 
 });
@@ -131,10 +141,17 @@ app.post("/urls/:id/delete", (req , res ) => {
 // go to urls_new.ejs page
 
 app.get("/urls/new", (req, res) => {
+  let user_id = req.cookies["user_id"];
+  let user = users[user_id];
+  let user_email = user !== undefined ? user.email : null;
+
+
+
   let templateVars = {
   urls: urlDatabase,
   shortURL: req.params.id,
-  user: req.cookies["user"]
+  user: req.cookies["user"],
+  user_email: user_email
 };
   res.render("urls_new", templateVars );
 });
@@ -143,8 +160,21 @@ app.get("/urls/new", (req, res) => {
 //
 app.post("/urls", (req, res) => {
   let rString = generateRandomString('0123456789abcdefghijklmnopqrstuvwxyz', 6);
+  let user_id = req.cookies["user_id"];
+  let user = users[user_id];
+  let user_email = user !== undefined ? user.email : null;
+  let templateVars = { urls: urlDatabase ,
+                         user_id : user_id,
+                         user_email : user_email
+                        };
 
-  urlDatabase[rString] = "https://" +  req.body['longURL'];
+
+
+  let longUrl = "https://" +  req.body['longURL'];
+  urlDatabase[rString] = {
+    longUrl : longUrl,
+    userID : user_id
+  }
   res.redirect(`/urls/${rString}`);
 });
 
@@ -161,7 +191,7 @@ app.get("/urls", (req, res) => {
   let user_id = req.cookies["user_id"];
 
   let user = users[user_id];
-  console.log(user);
+
   if (user){
     let user_email = user !== undefined ? user.email : null;
     let templateVars = { urls: urlDatabase ,
@@ -196,10 +226,14 @@ id[req.params.id] = req.body.longURL
 // when on /urls/"shortcode" display urls_shows.ejs with the url and short code
 app.get("/urls/:id", (req, res) => {
 
+  let user_id = req.cookies["user_id"];
+  let user = users[user_id];
+  let user_email = user !== undefined ? user.email : null;
   let templateVars = {
     urls:     urlDatabase,
     shortURL: req.params.id,
-    user_id: req.cookies["user_id"]
+    user_id: req.cookies["user_id"],
+    user_email:user_email
   };
 
   res.render("urls_show", templateVars);
