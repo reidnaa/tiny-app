@@ -33,7 +33,7 @@ li{list-style: none;}
   </header>
 
   <section>
-  <%= 'long form of url :' + urls[shortURL] %><br/>
+  <%= 'long form of url :' + urls[shortURL].longUrl %><br/>
   <%= 'short URL is : ' + shortURL %>
 
   <form action="/urls/<%= shortURL %>" method="POST" style="margin:150px;">

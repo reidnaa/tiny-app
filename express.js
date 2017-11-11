@@ -128,8 +128,12 @@ app.post("/logout", (req, res) => {
 
 // DELETE THE URLS
 app.post("/urls/:id/delete", (req , res ) => {
+
+  let user_id = req.cookies["user_id"];
+
+
   for ( id in urlDatabase){
-    if (user_id === id.userID){
+    if (user_id === urlDatabase[id].userID){
       delete urlDatabase[req.params.id];
     }
   }
@@ -159,6 +163,9 @@ app.get("/urls/new", (req, res) => {
 
 //
 app.post("/urls", (req, res) => {
+
+
+
   let rString = generateRandomString('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   let user_id = req.cookies["user_id"];
   let user = users[user_id];
