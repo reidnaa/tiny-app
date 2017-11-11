@@ -1,16 +1,15 @@
 
   <h1 class="page-title" style="background: #aaa;color:white;padding:40px;text-align:center;width:84%; margin:auto;border-radius:10px;text-transform:uppercase;"> Tiny App</h1>
- <% if (username === undefined) { %>
-<form method="POST" action="/login">
-  <input type="text" name="username" placeholder="username">
-  <input type="submit" name="submit" value="submit">
-</form>
-<% } else { %>
-<div class="space"
- <span> hey </span> <%= username %> <span>, you are logged in.</span>
- <form method="POST" action="/logout">
-  <input type="submit" name="submit" value="logout">
-</form>
- </div>
 
- <% } %>
+
+
+<% if ( user_email) { %>
+
+  <form action="/logout" method="POST" >
+    <input type="submit" value="logout">
+  </form>
+
+
+
+<span> <%= user_email %> is logged in </span>
+<% } %>

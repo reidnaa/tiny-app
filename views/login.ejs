@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>TinyApp</title>
+  <title>TinyApp - register</title>
 <style>
 .page-title{font-family: monospace;}
 body{text-align: center;}
@@ -12,9 +13,8 @@ nav {
     width: 50%;
     margin: auto;
 }
-header form{padding: 30px 0 30px;
-             display: inline-block;}
 .space{padding:30px;}
+
 nav a{
     padding: 20px;
     font-size: 20px;
@@ -22,25 +22,26 @@ nav a{
     text-decoration: none;
     font-family: monospace;
 }
+header form{padding: 30px 0 30px;
+            display: inline-block;}
 nav a:hover{color:white;}
 li{list-style: none;}
 </style>
 </head>
-<body style="width:84%; margin :auto;text-align :center";>
-  <header>
+<body>
+<header>
 <% include partials/_header %>
-<% include partials/nav %>
-  </header>
+  <% include partials/nav %>
+</header>
+  <h1> Login Page </h1>
 
-  <section>
-  <%= 'long form of url :' + urls[shortURL] %><br/>
-  <%= 'short URL is : ' + shortURL %>
-
-  <form action="/urls/<%= shortURL %>" method="POST" style="margin:150px;">
-      <label>short URL: <%= shortURL %> </label><br/>
-      <input id="longURL" type="text" name="longURL" placeholder="Enter new URL" style="width: 300px">
+<form action="/login" method="POST" style="margin:150px;">
+      <label >email: </label>
+      <input  type="email" name="email" placeholder="email address" style="width: 300px">
+      <input type="password" name="password" placeholder="password">
       <input type="submit" value="Submit">
-    </form>
-</section>
+
+</form>
+
 </body>
 </html>
