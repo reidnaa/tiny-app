@@ -38,7 +38,7 @@ li{list-style: none;}
 
    <ul>
     <% for(var url in ownerOfUrl) { %>
-      <li><%= url + ' :  ' + ownerOfUrl[url] %>
+      <li><%= url + ' :  '  %><a href="<%=ownerOfUrl[url]%>" target="_blank"><%= ownerOfUrl[url] %></a>
           <form method="POST" action="/urls/<%= url %>/delete">
                <button type="submit">Delete URL</button>
           </form>

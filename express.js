@@ -2,10 +2,15 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
 
+
+const saltRounds = 10;
 
 const PORT = process.env.PORT || 8080; // default port 8080
 
+
+// *** helper functions ***
 
 function generateRandomString(chars, number) {
     let result = '';
@@ -36,7 +41,8 @@ function urlsForUser(id){
 }
 
 
-
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}!`);});
 app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -88,7 +94,7 @@ app.get("/login" , (req,res) => {
 res.render("login" , templateVars);
 });
 
-// LOGIN!! post =====================================================================
+// *** LOGIN!! post ***/////
 
 
 
@@ -129,7 +135,7 @@ app.post("/login", (req, res) => {
 
 
 
-// logout
+// *** logout ***///
 
 app.post("/logout", (req, res) => {
   res.clearCookie("user_id");
@@ -138,7 +144,7 @@ app.post("/logout", (req, res) => {
 
 
 
-// DELETE THE URLS
+// *** DELETE THE URLS ***////
 app.post("/urls/:id/delete", (req , res ) => {
 
   let user_id = req.cookies["user_id"];
@@ -154,7 +160,7 @@ app.post("/urls/:id/delete", (req , res ) => {
 
 });
 
-// go to urls_new.ejs page
+// *** go to urls_new.ejs page *** ///
 
 app.get("/urls/new", (req, res) => {
   let user_id = req.cookies["user_id"];
@@ -173,7 +179,7 @@ app.get("/urls/new", (req, res) => {
 });
 
 
-//
+//*** redirect to urls/<shorturl>
 app.post("/urls", (req, res) => {
 
 
@@ -203,24 +209,18 @@ app.post("/urls", (req, res) => {
 
 // go to urls_index.ejs page
 app.get("/urls", (req, res) => {
-
-
   let user_id = req.cookies["user_id"];
-
   let user = users[user_id];
-
   let ownerOfUrl = urlsForUser(req.cookies["user_id"]);
-
-  console.log(ownerOfUrl);
 
   if (user){
     let user_email = user !== undefined ? user.email : null;
-    let templateVars = { urls: urlDatabase ,
-                         user_id : user_id,
-                         user_email : user_email,
-                          ownerOfUrl: ownerOfUrl
-
-                        };
+    let templateVars = {
+      urls: urlDatabase ,
+      user_id : user_id,
+      user_email : user_email,
+      ownerOfUrl: ownerOfUrl
+      };
     res.render("urls_index", templateVars);
   } else {
     res.redirect("login");
@@ -230,23 +230,20 @@ app.get("/urls", (req, res) => {
 
 
 
-
+// ***
 
 app.post("/urls/:id" , (req, res ) => {
 
+  let templateVars = {
+    urls: urlDatabase,
+    shortURL: req.params.id,
+    user_id: req.cookies["user_id"]
+    };
+  let id = templateVars.urls ;
 
+  id[req.params.id] = req.body.longURL
 
-
-let templateVars = {
-  urls: urlDatabase,
-  shortURL: req.params.id,
-  user_id: req.cookies["user_id"]
-};
-let id = templateVars.urls ;
-
-id[req.params.id] = req.body.longURL
-
- res.redirect("/urls/"+ templateVars.shortURL);
+  res.redirect("/urls/"+ templateVars.shortURL);
 });
 
 
@@ -268,16 +265,16 @@ app.get("/urls/:id", (req, res) => {
     user_id: req.cookies["user_id"],
     user_email:user_email
   };
-if (user){
+
   res.render("urls_show", templateVars);
-}else {
+
   res.send("please log in ")
-}
+
 });
 
 
 
-// get register page
+// *** get register page ***///
 app.get("/register", (req,res) => {
 
 let templateVars = {user_id : undefined ,
@@ -287,7 +284,7 @@ let templateVars = {user_id : undefined ,
 
 });
 
-// register page post
+// *** register page post ***///
 app.post("/register", (req, res) => {
   const newId = generateRandomString('0123456789abcdefghijklmnopqrstuvwxyz', 12);
 
@@ -313,7 +310,7 @@ app.post("/register", (req, res) => {
     }
 });
 
-//home page
+// ***home page ***///
 app.get("/", (req, res) => {
 
   let user_email;
@@ -337,20 +334,11 @@ app.get("/urls.json", (req, res) => {
 });
 
 
-// at Hello page === /hello
-app.get("/hello", (req, res) => {
-  res.end("<html><body>Hello <b>World</b></body></html>\n");
-});
 
-
-
-
+/// ***
 app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL);
 });
 
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
