@@ -234,6 +234,9 @@ app.get("/urls", (req, res) => {
 
 app.post("/urls/:id" , (req, res ) => {
 
+
+
+
 let templateVars = {
   urls: urlDatabase,
   shortURL: req.params.id,
@@ -245,6 +248,13 @@ id[req.params.id] = req.body.longURL
 
  res.redirect("/urls/"+ templateVars.shortURL);
 });
+
+
+
+
+
+
+
 
 // when on /urls/"shortcode" display urls_shows.ejs with the url and short code
 app.get("/urls/:id", (req, res) => {
@@ -258,8 +268,11 @@ app.get("/urls/:id", (req, res) => {
     user_id: req.cookies["user_id"],
     user_email:user_email
   };
-
+if (user){
   res.render("urls_show", templateVars);
+}else {
+  res.send("please log in ")
+}
 });
 
 
