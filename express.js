@@ -15,6 +15,26 @@ function generateRandomString(chars, number) {
     return result;
 }
 
+function checkForm (email, password){
+
+  if(email && password){
+    return true;
+  }else {
+    return false;
+  }
+}
+
+
+function urlsForUser(id){
+  const newObject = {};
+ for ( obj in urlDatabase){
+  if (urlDatabase[obj].userID === id){
+    newObject[obj] = urlDatabase[obj].longUrl;
+  }
+ }return newObject;
+
+}
+
 
 
 app.use(cookieParser());
@@ -70,14 +90,6 @@ res.render("login" , templateVars);
 
 // LOGIN!! post =====================================================================
 
-function checkForm (email, password){
-
-  if(email && password){
-    return true;
-  }else {
-    return false;
-  }
-}
 
 
 
@@ -186,16 +198,6 @@ app.post("/urls", (req, res) => {
 });
 
 
-
-function urlsForUser(id){
-  const newObject = {};
- for ( obj in urlDatabase){
-  if (urlDatabase[obj].userID === id){
-    newObject[obj] = urlDatabase[obj].longUrl;
-  }
- }return newObject;
-
-}
 
 
 
