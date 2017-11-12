@@ -187,7 +187,15 @@ app.post("/urls", (req, res) => {
 
 
 
+function urlsForUser(id){
+  const newObject = {};
+ for ( obj in urlDatabase){
+  if (urlDatabase[obj].userID === id){
+    newObject[obj] = urlDatabase[obj].longUrl;
+  }
+ }return newObject;
 
+}
 
 
 
@@ -199,11 +207,17 @@ app.get("/urls", (req, res) => {
 
   let user = users[user_id];
 
+  let ownerOfUrl = urlsForUser(req.cookies["user_id"]);
+
+  console.log(ownerOfUrl);
+
   if (user){
     let user_email = user !== undefined ? user.email : null;
     let templateVars = { urls: urlDatabase ,
                          user_id : user_id,
-                         user_email : user_email
+                         user_email : user_email,
+                          ownerOfUrl: ownerOfUrl
+
                         };
     res.render("urls_index", templateVars);
   } else {

@@ -37,8 +37,8 @@ li{list-style: none;}
   <h1> HEY YOU'RE DOING IT</h1>
 
    <ul>
-    <% for(var url in urls) { %>
-      <li><%= url + ' :  ' + urls[url].longUrl %>
+    <% for(var url in ownerOfUrl) { %>
+      <li><%= url + ' :  ' + ownerOfUrl[url] %>
           <form method="POST" action="/urls/<%= url %>/delete">
                <button type="submit">Delete URL</button>
           </form>
