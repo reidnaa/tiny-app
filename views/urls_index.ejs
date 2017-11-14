@@ -19,6 +19,18 @@ nav a{
     text-decoration: none;
     font-family: monospace;
 }
+.li-space {
+    margin: 10px 0 20px;
+}
+.form{margin:20px;}
+.button{
+  text-decoration:none;
+  padding:5px;
+  background:#ddd;
+  color:black;
+  border:1px solid black;
+  margin:20px;
+  border-radius:10px;}
 .space{padding:30px;}
 header form{padding: 30px 0 30px;
              display: inline-block;}
@@ -38,10 +50,11 @@ li{list-style: none;}
 
    <ul>
     <% for(var url in ownerOfUrl) { %>
-      <li><%= url + ' :  '  %><a href="<%=ownerOfUrl[url]%>" target="_blank"><%= ownerOfUrl[url] %></a>
-          <form method="POST" action="/urls/<%= url %>/delete">
+      <li class="li-space"><%= url + ' :  '  %><a href="<%=ownerOfUrl[url]%>" target="_blank"><%= ownerOfUrl[url] %></a>
+          <form class="form" method="POST" action="/urls/<%= url %>/delete">
                <button type="submit">Delete URL</button>
           </form>
+          <a class="button" href="/urls/<%= url %>">Edit</a>
       </li>
     <% } %>
 

@@ -259,10 +259,7 @@ app.post("/urls", (req, res) => {
                          user_id : user_id,
                          user_email : user_email
                         };
-
-
-
-  let longUrl = "https://" +  req.body['longURL'];
+  let longUrl = "https://" +  req.body['longUrl'];
   urlDatabase[rString] = {
     longUrl : longUrl,
     userID : user_id
@@ -297,27 +294,19 @@ app.get("/urls", (req, res) => {
 // ***
 
 app.post("/urls/:id" , (req, res ) => {
-
-  let templateVars = {
-    urls: urlDatabase,
-    shortURL: req.params.id,
-    user_id: req.session["user_id"]
-    };
-  let id = templateVars.urls ;
-
-  id[req.params.id] = req.body.longURL
-
-  res.redirect("/urls/"+ templateVars.shortURL);
+    urlDatabase[req.params.id].longUrl = req.body.longUrl
+  res.redirect("/urls/"+ req.params.id);
 });
 
 
 // when on /urls/"shortcode" display urls_shows.ejs with the url and short code
 app.get("/urls/:id", (req, res) => {
-
+  let longUrl = urlDatabase[req.params.id].longUrl;
   let user_id = req.session["user_id"];
   let user = users[user_id];
   let user_email = user !== undefined ? user.email : null;
   let templateVars = {
+    longUrl: longUrl,
     urls:     urlDatabase,
     shortURL: req.params.id,
     user_id: req.session["user_id"],
@@ -325,8 +314,6 @@ app.get("/urls/:id", (req, res) => {
   };
 
   res.render("urls_show", templateVars);
-  res.send("please log in ")
-
 });
 
 
