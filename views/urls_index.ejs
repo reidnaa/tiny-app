@@ -50,7 +50,7 @@ li{list-style: none;}
 
    <ul>
     <% for(var url in ownerOfUrl) { %>
-      <li class="li-space"><%= url + ' :  '  %><a href="<%=ownerOfUrl[url]%>" target="_blank"><%= ownerOfUrl[url] %></a>
+      <li class="li-space"><a href="<%=ownerOfUrl[url]%>"><%= url %></a>  :   <a href="<%=ownerOfUrl[url]%>" target="_blank"> <%= ownerOfUrl[url] %> </a>
           <form class="form" method="POST" action="/urls/<%= url %>/delete">
                <button type="submit">Delete URL</button>
           </form>

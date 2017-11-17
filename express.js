@@ -259,11 +259,12 @@ app.post("/urls", (req, res) => {
                          user_id : user_id,
                          user_email : user_email
                         };
-  let longUrl = "https://" +  req.body['longUrl'];
+  let longUrl = "https://" +  req.body['longURL'];
   urlDatabase[rString] = {
     longUrl : longUrl,
     userID : user_id
   }
+
   res.redirect(`/urls/${rString}`);
 });
 
@@ -319,8 +320,12 @@ app.get("/urls/:id", (req, res) => {
 
 /// ***
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
+
+ let holdShort = req.params.shortURL;
+  let redirectaddress = urlDatabase[holdShort].longUrl;
+
+
+  res.redirect(redirectaddress);
 });
 
 
